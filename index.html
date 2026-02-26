@@ -14,7 +14,7 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
-        /* ক্যানভাস (যেখানে লেখাগুলো পড়বে) */
+        /* ক্যানভাস (Matrix Rain) */
         canvas {
             display: block;
             position: absolute;
@@ -60,10 +60,6 @@
             text-align: center;
         }
 
-        .login-box input::placeholder {
-            color: rgba(0, 255, 0, 0.4);
-        }
-
         .login-box button {
             background: #00ff00;
             color: black;
@@ -86,7 +82,7 @@
             box-shadow: 0 0 15px #00ff00;
         }
 
-        /* টেলিগ্রাম বাটনগুলোর স্টাইল */
+        /* টেলিগ্রাম বাটন (target="_blank" সরানো হয়েছে WebView এর জন্য) */
         .extra-links {
             display: flex;
             flex-direction: column;
@@ -112,7 +108,6 @@
         .tg-btn:hover {
             background: rgba(0, 255, 0, 0.2);
             box-shadow: 0 0 10px #00ff00;
-            border-color: #00ff00;
         }
     </style>
 </head>
@@ -126,84 +121,60 @@
         <button onclick="loginSystem()">Initialize</button>
 
         <div class="extra-links">
-            <a href="https://t.me/rifat_developer" target="_blank" class="tg-btn">💎 Get Premium API Key</a>
-            <a href="https://t.me/your_telegram_channel" target="_blank" class="tg-btn">📢 Join Telegram Signal  Channel</a>
+            <a href="https://t.me/rifat_developer" class="tg-btn">💎 Get Premium API Key</a>
+            <a href="https://t.me/your_telegram_channel" class="tg-btn">📢 Join Telegram Channel</a>
         </div>
     </div>
 
     <script>
-        // Matrix Rain Effect Script
+        // Matrix Rain Effect
         const canvas = document.getElementById('matrixCanvas');
         const ctx = canvas.getContext('2d');
-
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const textStr = "Developer Rifat";
-        const letters = textStr.split("");
-
+        const letters = "DEVELOPERRIFAT01".split("");
         const fontSize = 16;
         const columns = canvas.width / fontSize;
-
         const drops = [];
-        for (let x = 0; x < columns; x++) {
-            drops[x] = 1;
-        }
+        for (let x = 0; x < columns; x++) drops[x] = 1;
 
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             ctx.fillStyle = '#0F0'; 
             ctx.font = fontSize + 'px monospace';
 
             for (let i = 0; i < drops.length; i++) {
                 const text = letters[Math.floor(Math.random() * letters.length)];
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
         }
-
         setInterval(drawMatrix, 33);
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        // লগইন লজিক এবং API Key চেকিং
+        // Login Logic
         function loginSystem() {
             const apiKeyInput = document.getElementById('apiKey').value;
-            
-            // আপনার API Key
             const validApiKey = "RifatPremium"; 
+            const expiryDate = "2026-12-31"; 
             
-            // --- এক্সপায়ারি সিস্টেম অ্যাড করা হয়েছে ---
-            const expiryDate = "2026-12-31"; // এখানে আপনার কাঙ্ক্ষিত মেয়াদ শেষ হওয়ার তারিখ দিন (YYYY-MM-DD)
             const today = new Date();
             const expiration = new Date(expiryDate);
-            
-            // মেইন পেজের লিংক
             const mainPageLink = "https://wingoanalyst.com/#/"; 
 
-            // প্রথমে মেয়াদ চেক করা হবে
             if (today > expiration) {
-                alert("😣 দুঃখিত আপনার ব্যবহারের সময় শেষ হয়ে গিয়েছে।  পুনরায় ব্যবহার করতে চাইলে  Rifat এডমিনের সাথে যোগাযোগ করুন  Please contact Developer Rifat for a new one.");
-                return; // মেয়াদ শেষ হলে আর সামনে বাড়বে না
+                alert("দুঃখিত, আপনার মেয়াদ শেষ হয়ে গেছে! নতুন কি-এর জন্য রিফাত এডমিনের সাথে যোগাযোগ করুন।");
+                return;
             }
 
             if (apiKeyInput === validApiKey) {
-                // সঠিক পাসওয়ার্ড দিলে মেইন পেজে নিয়ে যাবে
                 window.location.href = mainPageLink;
             } else if (apiKeyInput.trim() === "") {
-                alert("Access Denied! API Key is required.");
+                alert("Access Denied! API Key দিতে হবে।");
             } else {
-                // ভুল পাসওয়ার্ড দিলে মেসেজ দেখাবে
-                alert("Invalid API Key! Please click 'Get Premium API Key' to contact Developer Rifat.");
+                alert("ভুল API Key! দয়া করে সঠিক কি ব্যবহার করুন।");
             }
         }
     </script>
