@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Rifat - System Login</title>
+    <style>
+        /* বেসিক সেটআপ এবং ব্যাকগ্রাউন্ড */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* ক্যানভাস (যেখানে লেখাগুলো পড়বে) */
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* লগইন বক্সের স্টাইল */
+        .login-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 40px;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
+            text-align: center;
+            width: 320px;
+        }
+
+        .login-box h2 {
+            color: #00ff00;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 22px;
+        }
+
+        .login-box input {
+            width: 90%;
+            padding: 12px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+            font-family: inherit;
+            text-align: center;
+        }
+
+        .login-box input::placeholder {
+            color: rgba(0, 255, 0, 0.4);
+        }
+
+        .login-box button {
+            background: #00ff00;
+            color: black;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            font-family: inherit;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .login-box button:hover {
+            background: black;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            box-shadow: 0 0 15px #00ff00;
+        }
+
+        /* টেলিগ্রাম বাটনগুলোর স্টাইল */
+        .extra-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+            border-top: 1px dashed rgba(0, 255, 0, 0.4);
+            padding-top: 20px;
+        }
+
+        .tg-btn {
+            text-decoration: none;
+            color: #00ff00;
+            font-size: 14px;
+            border: 1px solid rgba(0, 255, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tg-btn:hover {
+            background: rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 10px #00ff00;
+            border-color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="login-box">
+        <h2>System Access</h2>
+        <input type="password" id="apiKey" placeholder="Enter API Key...">
+        <button onclick="loginSystem()">Initialize</button>
+
+        <div class="extra-links">
+            <a href="https://t.me/rifat_developer" target="_blank" class="tg-btn">💎 Get Premium API Key</a>
+            <a href="https://t.me/your_telegram_channel" target="_blank" class="tg-btn">📢 Join Telegram Signal  Channel</a>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain Effect Script
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const textStr = "Developer Rifat";
+        const letters = textStr.split("");
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0F0'; 
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // লগইন লজিক এবং API Key চেকিং
+        function loginSystem() {
+            const apiKeyInput = document.getElementById('apiKey').value;
+            
+            // আপনার API Key
+            const validApiKey = "RifatPremium"; 
+            
+            // --- এক্সপায়ারি সিস্টেম অ্যাড করা হয়েছে ---
+            const expiryDate = "2026-12-31"; // এখানে আপনার কাঙ্ক্ষিত মেয়াদ শেষ হওয়ার তারিখ দিন (YYYY-MM-DD)
+            const today = new Date();
+            const expiration = new Date(expiryDate);
+            
+            // মেইন পেজের লিংক
+            const mainPageLink = "https://wingoanalyst.com/#/"; 
+
+            // প্রথমে মেয়াদ চেক করা হবে
+            if (today > expiration) {
+                alert("😣 দুঃখিত আপনার ব্যবহারের সময় শেষ হয়ে গিয়েছে।  পুনরায় ব্যবহার করতে চাইলে  Rifat এডমিনের সাথে যোগাযোগ করুন  Please contact Developer Rifat for a new one.");
+                return; // মেয়াদ শেষ হলে আর সামনে বাড়বে না
+            }
+
+            if (apiKeyInput === validApiKey) {
+                // সঠিক পাসওয়ার্ড দিলে মেইন পেজে নিয়ে যাবে
+                window.location.href = mainPageLink;
+            } else if (apiKeyInput.trim() === "") {
+                alert("Access Denied! API Key is required.");
+            } else {
+                // ভুল পাসওয়ার্ড দিলে মেসেজ দেখাবে
+                alert("Invalid API Key! Please click 'Get Premium API Key' to contact Developer Rifat.");
+            }
+        }
+    </script>
+
+</body>
+</html>
