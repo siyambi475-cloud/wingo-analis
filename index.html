@@ -2,84 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Rifat - System Login</title>
+    <title>BDT Zara PRO V4.1</title>
     <style>
-        body { margin: 0; padding: 0; overflow: hidden; background-color: black; font-family: 'Courier New', Courier, monospace; }
-        canvas { display: block; position: absolute; top: 0; left: 0; z-index: 1; }
-        .login-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; background: rgba(0, 0, 0, 0.9); padding: 40px; border: 2px solid #00ff00; border-radius: 10px; box-shadow: 0 0 25px rgba(0, 255, 0, 0.5); text-align: center; width: 300px; }
-        .login-box h2 { color: #00ff00; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; font-size: 20px; }
-        .login-box input { width: 90%; padding: 12px; background: rgba(0, 255, 0, 0.05); border: 1px solid #00ff00; color: #00ff00; font-size: 16px; margin-bottom: 20px; outline: none; text-align: center; }
-        .login-box button { background: #00ff00; color: black; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%; margin-bottom: 20px; transition: 0.3s; }
-        .login-box button:hover { background: black; color: #00ff00; border: 1px solid #00ff00; box-shadow: 0 0 15px #00ff00; }
-        .extra-links { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; border-top: 1px dashed rgba(0, 255, 0, 0.4); padding-top: 20px; }
-        .tg-btn { text-decoration: none; color: #00ff00; font-size: 13px; border: 1px solid rgba(0, 255, 0, 0.5); padding: 10px; border-radius: 5px; display: block; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-        .tg-btn:hover { background: rgba(0, 255, 0, 0.2); border-color: #00ff00; }
+        body { background-color: #000; color: #00ff00; font-family: 'Courier New', monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .main-card { border: 2px solid #00ff00; padding: 20px; border-radius: 20px; width: 320px; text-align: center; box-shadow: 0 0 20px #00ff00; }
+        .hidden { display: none; }
+        input, button { width: 90%; padding: 12px; margin-top: 15px; border-radius: 8px; border: 1px solid #00ff00; background: #000; color: #00ff00; }
+        button { background: #00ff00; color: #000; font-weight: bold; cursor: pointer; }
+        .res-box { font-size: 28px; font-weight: bold; margin: 20px 0; color: #fff; padding: 10px; border: 1px dashed #00ff00; }
     </style>
 </head>
 <body>
 
-    <canvas id="matrixCanvas"></canvas>
-
-    <div class="login-box">
-        <h2>System Access</h2>
-        <input type="password" id="apiKey" placeholder="Enter API Key...">
-        <button onclick="loginSystem()">Initialize</button>
-
-        <div class="extra-links">
-            <a href="https://t.me/rifat_developer" class="tg-btn">💎 Get Premium API Key</a>
-            <a href="https://t.me/dkwin_HGNICE_WINGOHACK" class="tg-btn">📢 Join Telegram Channel</a>
-        </div>
+<div class="main-card">
+    <div id="auth-panel">
+        <h2>Boom_myhack_bot ACCESS</h2>
+        <input type="password" id="access_key" placeholder="ENTER KEY">
+        <button onclick="checkKey()">ACTIVATE</button>
     </div>
 
-    <script>
-        // Matrix Rain
-        const canvas = document.getElementById('matrixCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const letters = "DEV-RIFAT-0101".split("");
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = [];
-        for (let x = 0; x < columns; x++) drops[x] = 1;
+    <div id="hack-panel" class="hidden">
+        <h3>WINGO ANALYZER</h3>
+        <p>Period: <span id="period_id">...</span></p>
+        <div class="res-box" id="result_area">WAITING...</div>
+        <p id="timer_area">00:00</p>
+    </div>
+</div>
 
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
+<script>
+    const ADMIN_LINK = "https://t.me/rifat_developer";
+    const KEY = "7night";
+    
+    // নির্দিষ্ট এক্সপায়ারি ডেট সেট করা (বছর, মাস-১, দিন)
+    // আগস্ট ৩১, ২০২৫ (মাস ০ থেকে শুরু হয়, তাই আগস্ট = ৭)
+    const expiryDate = new Date(20269, 6, 18, 23, 59, 59).getTime();
+
+    if (Date.now() > expiryDate) {
+        document.body.innerHTML = `
+        <div style="text-align:center;color:#00ff00;font-family:Courier New; padding: 20px;">
+            <h2>ACCESS EXPIRED</h2>
+            <p>Your Access Expired on August 31, 2025</p>
+            <button onclick="window.open('${ADMIN_LINK}','_blank')"
+            style="padding:12px 20px; background:#00ff00; color:#000; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
+            CONTACT ADMIN
+            </button>
+        </div>`;
+        throw new Error("Expired");
+    }
+
+    function checkKey() {
+        if(document.getElementById("access_key").value === KEY) {
+            document.getElementById("auth-panel").classList.add("hidden");
+            document.getElementById("hack-panel").classList.remove("hidden");
+            startEngine();
+        } else {
+            alert("Invalid Key!");
         }
-        setInterval(drawMatrix, 33);
+    }
 
-        // Login Logic
-        function loginSystem() {
-            const apiKeyInput = document.getElementById('apiKey').value;
-            const validApiKey = "RifatPremium"; 
-            const expiryDate = "2026-12-31"; 
-            const mainPageLink = "https://wingoanalyst.com/#/"; 
+    function startEngine() {
+        setInterval(() => {
+            const now = new Date();
+            const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+            const seconds = utc.getSeconds();
+            const totalMinutes = (utc.getHours() * 60) + utc.getMinutes();
+            const period = utc.getFullYear().toString() + (utc.getMonth()+1).toString().padStart(2,'0') + utc.getDate().toString().padStart(2,'0') + "01" + (10001 + totalMinutes);
+            
+            document.getElementById("period_id").innerText = period;
+            document.getElementById("timer_area").innerText = "Next: " + (60 - seconds) + "s";
 
-            const today = new Date();
-            const expiration = new Date(expiryDate);
-
-            if (today > expiration) {
-                alert("মেয়াদ শেষ! রিফাত এডমিনের সাথে যোগাযোগ করুন।");
-                return;
+            if (seconds === 0 || document.getElementById("result_area").innerText === "WAITING...") {
+                generatePrediction(period);
             }
+        }, 1000);
+    }
 
-            if (apiKeyInput === validApiKey) {
-                window.location.href = mainPageLink;
-            } else if (apiKeyInput.trim() === "") {
-                alert("API Key প্রয়োজন!");
-            } else {
-                alert("ভুল API Key! টেলিগ্রামে যোগাযোগ করুন।");
-            }
+    function generatePrediction(period) {
+        let hash = 0;
+        for (let i = 0; i < period.length; i++) {
+            hash = period.charCodeAt(i) + ((hash << 5) - hash);
         }
-    </script>
+        let val = Math.abs(hash % 10);
+        
+        let result = (val >= 5) ? "BIG" : "SMALL";
+        let color = (val % 2 === 0) ? "RED" : "GREEN";
+        if (val === 0 || val === 5) color = "VIOLET";
+
+        document.getElementById("result_area").innerHTML = `${result}<br><span style="font-size:16px;">COLOR: ${color}</span>`;
+    }
+</script>
+
 </body>
 </html>
